@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-  parameter-store:
+  variables:
     BUILD_UTIL_S3: sg-build-utils-017851678712-us-east-1-an
     
     ENVIRONMENT: "Sandbox" 
