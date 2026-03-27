@@ -39,7 +39,7 @@
 						<target>${targetName}</target>
 						<muleVersion>${muleVersion}</muleVersion>
 						<businessGroupId>${businessGroupId}</businessGroupId>
-						<sever>${server}</sever>
+						<server>${server}</server>
 						<applicationName>${appName}</applicationName>
 						<replicas>${replicas}</replicas>
 						<vCores>${vCores}</vCores>
