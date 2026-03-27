@@ -36,7 +36,7 @@ phases:
       - mvn package
       
       # This command publishes artifact to exchange
-      - mvn deploy -DbusinessGroupId=$BUSINESS_GROUP_ID -Dserver=$SERVER
+      - mvn deploy
       
       # This command deploys application to Cloudhub 2.0
       - mvn deploy -DmuleDeploy -Denvironment=$ENVIRONMENT -DtargetName=$TARGET_NAME -DmuleVersion=$MULE_VERSION -DbusinessGroupId=$BUSINESS_GROUP_ID -Dserver=$SERVER -DappName=$APP_NAME -Dreplicas=$REPLICAS -DvCores=$VCORES -DgenerateDefaultPublicUrl=$GENERATE_DEFAULT_PUBLIC_URL -DlastMileSecurity=$LAST_MILE_SECURITY
