@@ -5,7 +5,7 @@ env:
     BUILD_UTIL_S3: sg-build-utils-017851678712-us-east-1-an
     
     ENVIRONMENT: "Sandbox" 
-    TARGET_NAME: "cloudhub-us-east-2"
+    TARGET_NAME: "Cloudhub-US-East-2"
     MULE_VERSION: "4.11.2:3e-java17"
     BUSINESS_GROUP_ID: "76ea51f0-3db3-4293-bfc3-a7a1cc71f375"
     SERVER: "sg-anypoint-exchange"
