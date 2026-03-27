@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      # Specify the desired Java version for the build environment
+      java: corretto17 
+  pre_build:
+    commands:
+      - echo "Restoring Maven dependencies..."
+      # Optional: if using AWS CodeArtifact, you might fetch a token here
+      # - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain my_domain --domain-owner 111122223333 --query authorizationToken --output text`
+  build:
+    commands:
+      - echo "Compiling and packaging the application..."
+      # This command runs tests and creates the application package (e.g., a JAR or WAR file)
+      - mvn package
+  post_build:
+    commands:
+      - echo "Build completed successfully. Archiving artifacts..."
+
+artifacts:
+  files:
+    # Specify the files to upload as build artifacts
+    - target/*.jar
+  # discard-paths: yes # Optional: use if you want the artifacts in the root of the S3 bucket
+  discard-paths: no
+
+cache:
+  paths:
+    # Caches the Maven local repository to speed up subsequent builds
+    - '/root/.m2/repository/**/*'
