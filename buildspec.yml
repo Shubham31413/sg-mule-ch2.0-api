@@ -1,10 +1,27 @@
 version: 0.2
 
+env:
+  parameter-store:
+    BUILD_UTIL_S3: sg-build-utils-017851678712-us-east-1-an
+    
+    ENVIRONMENT: "Sandbox" 
+    TARGET_NAME: "Cloudhub-US-East-1"
+    MULE_VERSION: "4.11.2:3e-java17"
+    BUSINESS_GROUP_ID: "76ea51f0-3db3-4293-bfc3-a7a1cc71f375"
+    SERVER: "sg-anypoint-exchange"
+    APP_NAME: "sg-mule-poc-api"
+    REPLICAS: "1"
+    VCORES: "0.1"
+    GENERATE_DEFAULT_PUBLIC_URL: true
+    LAST_MILE_SECURITY: false
+
 phases:
   install:
     runtime-versions:
       # Specify the desired Java version for the build environment
       java: corretto17 
+    commands:
+      - aws s3 cp s3://$BUILD_UTIL_S3/settings.xml /root/.m2/settings.xml
   pre_build:
     commands:
       - echo "Restoring Maven dependencies..."
@@ -12,9 +29,18 @@ phases:
       # - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain my_domain --domain-owner 111122223333 --query authorizationToken --output text`
   build:
     commands:
+      
       - echo "Compiling and packaging the application..."
+      
       # This command runs tests and creates the application package (e.g., a JAR or WAR file)
       - mvn package
+      
+      # This command publishes artifact to exchange
+      - mvn deploy -DbusinessGroupId=$BUSINESS_GROUP_ID -Dserver=$SERVER
+      
+      # This command deploys application to Cloudhub 2.0
+      - mvn deploy -DmuleDeploy -Denvironment=$ENVIRONMENT -DtargetName=$TARGET_NAME -DmuleVersion=$MULE_VERSION -DbusinessGroupId=$BUSINESS_GROUP_ID -Dserver=$SERVER -DappName=$APP_NAME -Dreplicas=$REPLICAS -DvCores=$VCORES -DgenerateDefaultPublicUrl=$GENERATE_DEFAULT_PUBLIC_URL -DlastMileSecurity=$LAST_MILE_SECURITY
+      
   post_build:
     commands:
       - echo "Build completed successfully. Archiving artifacts..."

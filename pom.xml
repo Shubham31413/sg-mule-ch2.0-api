@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompany</groupId>
+	<groupId>${businessGroupId}</groupId>
 	<artifactId>mule-ch2.0-poc-api</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
@@ -29,6 +31,28 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<cloudhub2Deployment>
+						<uri>https://anypoint.mulesoft.com</uri>
+						<provider>MC</provider>
+						<environment>${environment}</environment>
+						<target>${targetName}</target>
+						<muleVersion>${muleVersion}</muleVersion>
+						<businessGroupId>${businessGroupId}</businessGroupId>
+						<sever>${server}</sever>
+						<applicationName>${appName}</applicationName>
+						<replicas>${replicas}</replicas>
+						<vCores>${vCores}</vCores>
+						<deploymentSettings>
+							<generateDefaultPublicUrl>${generateDefaultPublicUrl}</generateDefaultPublicUrl>
+							<http>
+								<inbound>
+									<lastMileSecurity>${lastMileSecurity}</lastMileSecurity>
+								</inbound>
+							</http>
+						</deploymentSettings>
+					</cloudhub2Deployment>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -47,6 +71,15 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>sg-anypoint-exchange</id>
+			<name>Corporate Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${businessGroupId}/maven</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 
 	<repositories>
 		<repository>
